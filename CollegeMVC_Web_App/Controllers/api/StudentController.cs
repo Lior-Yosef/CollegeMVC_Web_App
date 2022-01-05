@@ -110,17 +110,53 @@ namespace CollegeMVC_Web_App.Controllers.API
         }
 
         // PUT: api/Student/5
-        public void Put(int id, [FromBody] string value)
+        public IHttpActionResult Put(int id, [FromBody] Student value)
         {
-            //string query = $@"UPDATE Student 
-                                    //SET FullName = '{value.FirstName}' , FullName = '{value.FirstName}',LastName = '{value.LastName}',BornYear = '{value.BornYear}',Email = '{value.Email}',YearStudent = '{value.YearStudent}'";
-            //SqlCommand cmd = new SqlCommand(query, conn);
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connctionString))
+                {
+                    conn.Open();
+
+                    string Putquery = $@"UPDATE Student
+                                       SET FullName='{value.FirstName}',LastName='{value.LastName}',BornYear='{value.BornYear}',Email='{value.Email}',YearStudent={value.YearStudent}
+                                       WHERE Id={id}";
+                    SqlCommand cmd = new SqlCommand(Putquery, conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    conn.Close();
+                }
+            }
+            catch (SqlException ex) { return BadRequest(ex.Message);}
+            catch (Exception ex) { return BadRequest(ex.Message); }
+                    return Ok();
+
         }
 
         // DELETE: api/Student/5
-        public void Delete(int id)
+        public IHttpActionResult Delete(int id)
         {
-            //
+            try
+            {
+                using(SqlConnection conn = new SqlConnection(connctionString))
+                {
+                    conn.Open();
+
+                    string Deletequery = $@"DELETE FROM Student WHERE Id={id}";
+
+                    SqlCommand cmd = new SqlCommand(Deletequery, conn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    conn.Close();
+
+                    return Ok(Get());
+                }
+
+            }
+            catch (SqlException ex) { return BadRequest(ex.Message); }
+            catch (Exception ex) { return BadRequest(ex.Message); }
+
+
+
+
         }
 
     }
