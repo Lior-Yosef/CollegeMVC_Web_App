@@ -17,13 +17,13 @@ namespace CollegeMVC_Web_App.Models
             YearStudent = yearStudent;
         }
 
-        string FirstName { get; set; }
-        string LastName { get; set; }
-        DateTime BornYear { get; set; }
-        string Email { get; set; }
-        int YearStudent { get; set; }
+       public string FirstName { get; set; }
+       public string LastName { get; set; }
+       public DateTime BornYear { get; set; }
+       public string Email { get; set; }
+       public int YearStudent { get; set; }
 
-        public static List<Student> listStudent = new List<Student>();
+        //public static List<Student> listStudent = new List<Student>();
 
     }
 }
